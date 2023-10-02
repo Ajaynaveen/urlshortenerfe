@@ -1,59 +1,37 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios'; 
+import axios from 'axios';
 import { Link } from 'react-router-dom';
 
+const tableStyle = {
+  width: '100%',
+  borderCollapse: 'collapse',
+  marginTop: '20px',
+};
 
-const urlTableStyles = {
-  container: {
-    textAlign: 'center',
-  },
-  heading: {
-    fontSize: '24px',
-    fontWeight: 'bold',
-    margin: '20px 0',
-  },
-  table: {
-    width: '100%',
-    borderCollapse: 'collapse',
-  },
-  tableHeaderCell: {
-    backgroundColor: '#007bff',
-    color: 'white',
-    padding: '8px',
-  },
-  tableCell: {
-    border: '1px solid #ccc',
-    padding: '8px',
-  },
-  noUrlsMessage: {
-    fontSize: '18px',
-    margin: '10px 0',
-    color: 'red',
-  },
-  link: {
-    fontSize: '18px',
-    marginTop: '20px',
-    display: 'block',
-  },
+const thStyle = {
+  backgroundColor: '#007bff',
+  color: 'white',
+  padding: '8px',
+};
+
+const tdStyle = {
+  border: '1px solid #ccc',
+  padding: '8px',
+};
+
+const linkStyle = {
+  textDecoration: 'none',
+  color: '#007bff',
 };
 
 const URLTable = () => {
   const [urls, setUrls] = useState([]);
 
   useEffect(() => {
-   
-    const token = localStorage.getItem('token'); 
-
-    if (!token) {
-     
-      console.error('Token missing');
-      return;
-    }
-
     const axiosInstance = axios.create({
-      baseURL: 'http://localhost:3003',
+      baseURL: 'https://urlshortener-db6x.onrender.com',
       headers: {
-        Authorization: `${localStorage.getItem('token')}`, 
+        Authorization: `${localStorage.getItem('token')}`,
       },
     });
 
@@ -64,43 +42,40 @@ const URLTable = () => {
       })
       .catch((error) => {
         console.error('Error fetching user URLs:', error);
-        
       });
   }, []);
 
   return (
-    <div style={urlTableStyles.container}>
-      <h1 style={urlTableStyles.heading}>Created URLs</h1>
-
-      <table style={urlTableStyles.table}>
+    <div>
+      <h1>Created URLs</h1>
+      <table style={tableStyle}>
         <thead>
           <tr>
-            <th style={urlTableStyles.tableHeaderCell}>Long URL</th>
-            <th style={urlTableStyles.tableHeaderCell}>Short URL</th>
-            <th style={urlTableStyles.tableHeaderCell}>Clicks</th>
+            <th style={thStyle}>Long URL</th>
+            <th style={thStyle}>Short URL</th>
+            <th style={thStyle}>Clicks</th>
           </tr>
         </thead>
         <tbody>
-          {Array.isArray(urls) && urls.length > 0 ? (
-            urls.map((url, index) => (
-              <tr key={index}>
-                <td style={urlTableStyles.tableCell}>{url.longUrl}</td>
-                <td style={urlTableStyles.tableCell}>{url.shortUrl}</td>
-                <td style={urlTableStyles.tableCell}>{url.clicks}</td>
-              </tr>
-            ))
-          ) : (
-            <tr>
-              <td style={urlTableStyles.noUrlsMessage} colSpan="3">
-                No URLs found
+          {urls.map((url, index) => (
+            <tr key={index}>
+              <td style={tdStyle}>{url.longUrl}</td>
+              <td style={tdStyle}>
+                <a
+                  href={url.shortUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={linkStyle}
+                >
+                  {url.shortUrl}
+                </a>
               </td>
+              <td style={tdStyle}>{url.clicks}</td>
             </tr>
-          )}
+          ))}
         </tbody>
       </table>
-      <Link style={urlTableStyles.link} to="/dashboard">
-        Dashboard
-      </Link>
+      <Link to="/dashboard">Dashboard</Link>
     </div>
   );
 };

@@ -39,7 +39,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     // Use Axios for the API request
-    axios.get('http://localhost:3003/stats', {
+    axios.get('https://urlshortener-db6x.onrender.com/stats', {
       headers: {
         Authorization: `${localStorage.getItem('token')}`, // Remove the extra space before ${localStorage.getItem('token')}
       },

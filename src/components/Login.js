@@ -20,7 +20,7 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:3003/login', formData);
+      const response = await axios.post('https://urlshortener-db6x.onrender.com/login', formData);
       if (response.status === 200) {
         console.log('Login successful');
         console.log(response.data)

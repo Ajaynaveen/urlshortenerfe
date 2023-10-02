@@ -12,6 +12,7 @@ import Dashboard from "./components/Dashboard"; // Import Dashboard component
 import Shortener from "./components/Shortener"; // Import Shortener component
 import URLTable from "./components/URLTable"; // Import URLTable component
 
+
 function App() {
   return (
     <Router>
@@ -27,6 +28,7 @@ function App() {
           <Route path="/dashboard" element={<Dashboard/>}/> 
           <Route path="/urls" element={<URLTable/>}/> 
           <Route path="/shorten" element={<Shortener/>}/> 
+         
         </Routes>
       </div>
     </Router>

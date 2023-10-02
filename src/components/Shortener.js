@@ -2,53 +2,47 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
-const shortenerStyles = {
-  container: {
-    textAlign: 'center',
-  },
-  heading: {
-    fontSize: '24px',
-    fontWeight: 'bold',
-    margin: '20px 0',
-  },
-  form: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  label: {
-    fontSize: '18px',
-    margin: '10px 0',
-  },
-  input: {
-    width: '100%',
-    padding: '10px',
-    fontSize: '16px',
-    marginBottom: '10px',
-  },
-  button: {
-    padding: '10px 20px',
-    fontSize: '18px',
-    backgroundColor: '#007bff',
-    color: 'white',
-    border: 'none',
-    cursor: 'pointer',
-  },
-  link: {
-    fontSize: '18px',
-    marginTop: '20px',
-    display: 'block',
-  },
-  successMessage: {
-    fontSize: '18px',
-    margin: '10px 0',
-    color: 'green',
-  },
-  errorMessage: {
-    fontSize: '18px',
-    margin: '10px 0',
-    color: 'red',
-  },
+const containerStyle = {
+  textAlign: 'center',
+  margin: '20px',
+};
+
+const headingStyle = {
+  fontSize: '24px',
+  fontWeight: 'bold',
+  margin: '20px 0',
+};
+
+const formStyle = {
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+};
+
+const labelStyle = {
+  fontSize: '18px',
+};
+
+const inputStyle = {
+  padding: '8px',
+  fontSize: '16px',
+};
+
+const buttonStyle = {
+  padding: '10px 20px',
+  fontSize: '18px',
+  backgroundColor: '#007bff',
+  color: 'white',
+  border: 'none',
+  cursor: 'pointer',
+  marginTop: '10px',
+};
+
+const linkStyle = {
+  fontSize: '18px',
+  margin: '20px 0',
+  textDecoration: 'none',
+  color: '#007bff',
 };
 
 const Shortener = () => {
@@ -59,27 +53,22 @@ const Shortener = () => {
   const handleFormSubmit = async (e) => {
     e.preventDefault();
 
-   
     const token = localStorage.getItem('token');
 
-    
     if (!token) {
       console.error('Authentication token is missing');
-      
       return;
     }
 
     try {
-     
       const axiosInstance = axios.create({
-        baseURL: 'http://localhost:3003',
+        baseURL: 'https://urlshortener-db6x.onrender.com',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `${token}`, 
+          Authorization: `${token}`,
         },
       });
 
-     
       const response = await axiosInstance.post('/shorten', { longUrl });
 
       if (response.status !== 200) {
@@ -94,37 +83,39 @@ const Shortener = () => {
   };
 
   return (
-    <div style={shortenerStyles.container}>
-      <h1 style={shortenerStyles.heading}>URL Shortener</h1>
-
-      <div>
-        <h2>Create a Short URL</h2>
-        <form style={shortenerStyles.form} onSubmit={handleFormSubmit}>
-          <label style={shortenerStyles.label} htmlFor="longUrl">
-            Long URL:
-          </label>
-          <input
-            style={shortenerStyles.input}
-            type="url"
-            id="longUrl"
-            required
-            value={longUrl}
-            onChange={(e) => setLongUrl(e.target.value)}
-          />
-          <button style={shortenerStyles.button} type="submit">
-            Shorten
-          </button>
-        </form>
-        {shortUrl && (
-          <p style={shortenerStyles.successMessage}>
-            Shortened URL: {shortUrl}
-          </p>
-        )}
-        {error && (
-          <p style={shortenerStyles.errorMessage}>Error: {error}</p>
-        )}
-      </div>
-      <Link style={shortenerStyles.link} to="/dashboard">
+    <div style={containerStyle}>
+      <h1 style={headingStyle}>URL Shortener</h1>
+      <form style={formStyle} onSubmit={handleFormSubmit}>
+        <label style={labelStyle} htmlFor="longUrl">
+          Long URL:
+        </label>
+        <input
+          style={inputStyle}
+          type="url"
+          id="longUrl"
+          required
+          value={longUrl}
+          onChange={(e) => setLongUrl(e.target.value)}
+        />
+        <button style={buttonStyle} type="submit">
+          Shorten
+        </button>
+      </form>
+      {shortUrl && (
+        <div>
+          <p>Shortened URL:</p>
+          <a
+            href={shortUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={linkStyle}
+          >
+            {shortUrl}
+          </a>
+        </div>
+      )}
+      {error && <p>Error: {error}</p>}
+      <Link style={linkStyle} to="/dashboard">
         Dashboard
       </Link>
     </div>

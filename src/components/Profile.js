@@ -24,7 +24,7 @@ const Profile = () => {
     const token = localStorage.getItem('token'); // Retrieve the token from local storage
 
     axios
-      .get('http://localhost:3003/profile', {
+      .get('https://urlshortener-db6x.onrender.com/profile', {
         headers: {
           Authorization: `${token}`,
         },

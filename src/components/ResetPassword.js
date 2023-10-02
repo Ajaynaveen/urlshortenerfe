@@ -63,7 +63,7 @@ function ResetPassword() {
     }
 
     try {
-      const response = await axios.post(`http://localhost:3003/reset-password/${token}`, {
+      const response = await axios.post(`https://urlshortener-db6x.onrender.com/reset-password/${token}`, {
         newPassword,
       });
 

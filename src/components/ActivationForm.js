@@ -9,7 +9,7 @@ const ActivationForm = () => {
 
   const handleActivation = async () => {
     try {
-      const response = await axios.get('http://localhost:3003/activate', { token: activationToken });
+      const response = await axios.get('https://urlshortener-db6x.onrender.com/activate', { token: activationToken });
       setMessage(response.data.message);
       navigate('/login')
     } catch (error) {

@@ -26,7 +26,7 @@ function Signup() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:3003/users', formData);
+      const response = await axios.post('https://urlshortener-db6x.onrender.com/users', formData);
 
       if (response.status === 201) {
         console.log('User registered successfully');

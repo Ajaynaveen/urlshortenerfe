@@ -52,7 +52,7 @@ function ForgetPassword() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:3003/forgetpassword', formData);
+      const response = await axios.post('https://urlshortener-db6x.onrender.com/forgetpassword', formData);
 
       console.log(response, "res");
 
